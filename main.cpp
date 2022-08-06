@@ -3,6 +3,7 @@
 
 #include "armips/Core/Assembler.h"
 #include "armips/Util/FileSystem.h"
+#include "n64crc/n64crc.h"
 #include "log.h"
 
 /*
@@ -59,6 +60,9 @@ int main(int argc, char *argv[])
 
     ret = std::remove(tmp_file.c_str());
     FATAL_ON(ret, "error deleting '%s'", tmp_file.c_str());
+
+    if (n64crc_recompute(rom_file.c_str()))
+        FATAL("n64crc failure");
 
     return EXIT_SUCCESS;
 }

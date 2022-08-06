@@ -6,6 +6,9 @@ set(ARMIPS_USE_STD_FILESYSTEM ON)
 set(ARMIPS_LIBRARY_ONLY ON)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/armips)
 
-add_executable(n64-armips main.cpp)
+add_executable(n64-armips
+    main.cpp
+    n64crc/n64crc.c
+)
 add_dependencies(n64-armips armips)
 target_link_libraries(n64-armips armips)
