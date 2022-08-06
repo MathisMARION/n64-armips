@@ -2,8 +2,8 @@
 #include <cstdio>
 
 #include "armips/Core/Assembler.h"
-#include "armips/Util/FileSystem.h"
 #include "n64crc/n64crc.h"
+#include "n64_armips.hpp"
 #include "log.h"
 
 /*
@@ -34,16 +34,11 @@ static fs::path create_asm_wrapper_file(const fs::path &asm_file, const fs::path
     return tmp_file;
 }
 
-int main(int argc, char *argv[])
+void n64_armips_assemble(const fs::path &asm_file, const fs::path &rom_file)
 {
     ArmipsArguments armips_args;
     std::error_code err;
     int ret;
-
-    FATAL_ON(argc != 3, "Usage: %s asm-file rom-file", argv[0]);
-
-    fs::path asm_file = fs::absolute(argv[1]);
-    fs::path rom_file = fs::absolute(argv[2]);
 
     fs::path tmp_file = create_asm_wrapper_file(asm_file, rom_file);
 
@@ -63,6 +58,4 @@ int main(int argc, char *argv[])
 
     if (n64crc_recompute(rom_file.c_str()))
         FATAL("n64crc failure");
-
-    return EXIT_SUCCESS;
 }
